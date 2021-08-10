@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>spotify loader</title>
+		<style>
+			body{
+				margin:0;
+				padding:0;
+				font-family: Arial;
+				text-align:center;
+			}
+			.container{
+				margin-top: 30vh;
+				display:inline-block;
+			}
+			.controller{
+				font-size:30px;
+				margin:5px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class ="container">
+			<p class = "controller">Enter playlist id</p>
+			<input class = "controller"  type = "text" id = "inp"/>
+			<button class = "controller" id = "btn">load</button>
+		</div>
+		
+		<script>
+			window.onload = function(){
+			// controlls
+				const inp = document.getElementById("inp");
+				const btn = document.getElementById("btn");
+			//
+				
+			btn.addEventListener("click", ()=>{
+				if(inp.value.length < 10)
+					return;
+				let x = new XMLHttpRequest();
+				x.open("POST", "http://localhost:5000/init");
+				//response
+				x.onreadystatechange = ()=>{
+					if(x.readyState === 4 && x.status === 200){
+						inp.value = x.responseText;
+					}
+				}
+				x.send((window.location.href.split("=")[1])+"&"+inp.value);
+			});
+			}
+		</script>
+	</body>
+</html>
